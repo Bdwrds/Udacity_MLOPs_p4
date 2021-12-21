@@ -29,7 +29,7 @@ def merge_multiple_dataframe():
         if file[-3:] == 'csv':
             fp_df = os.path.join(fp_cwd, input_folder_path, file)
             df_sub = pd.read_csv(fp_df)
-            df_comb.append(df_sub)
+            df_comb = df_comb.append(df_sub)
             ingest_record.write(fp_df + "\n")
 
     # drop duplicates
@@ -37,7 +37,7 @@ def merge_multiple_dataframe():
 
     # write csv to file
     fp_out = os.path.join(fp_cwd, output_folder_path, csv_output)
-    df_comb.to_csv(fp_out)
+    df_comb.to_csv(fp_out, index=False)
 
     # save record of files ingested here
     ingest_record.close()
