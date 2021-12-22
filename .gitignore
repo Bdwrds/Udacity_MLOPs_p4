@@ -9,6 +9,8 @@ __pycache__/
 .idea/**.iml
 .idea/**.xml
 
+submission*
+
 # Distribution / packaging
 .Python
 build/

@@ -1,14 +1,10 @@
 import pickle
-from sklearn.model_selection import train_test_split
 import pandas as pd
-import numpy as np
 from sklearn import metrics
 import matplotlib.pyplot as plt
-import seaborn as sns
 import json
 import os
 from diagnostics import model_predictions
-
 
 ###############Load config.json and get path variables
 with open('config.json', 'r') as f:
@@ -27,8 +23,6 @@ f_csv = os.path.join(fp_cwd, test_data_path, test_data_csv)
 
 ##############Function for reporting
 def score_model(model_path, fp_csv, output_path):
-    #calculate a confusion matrix using the test data and the deployed model
-    #write the confusion matrix to the workspace
     df_data = pd.read_csv(fp_csv)
     X_cols = ['lastmonth_activity', 'lastyear_activity', 'number_of_employees']
     target = 'exited'

@@ -56,7 +56,6 @@ prev_score = float(prev_score[0])
 # are files new
 new_files = [new_f for new_f in ls_data_files if new_f not in prev_files and new_f[-3:] == 'csv']
 
-
 ##################Deciding whether to proceed, part 1
 print("CHECK NEW FILES")
 if not new_files:
@@ -73,7 +72,6 @@ mdl = pickle.load(open(f_model_prod, 'rb'))
 preds = diagnostics.model_predictions(mdl, fp_csv)
 
 ##################Deciding whether to proceed, part 2
-#if you found model drift, you should proceed. otherwise, do end the process here
 print("DRIFT SECTION")
 f1_score = scoring.score_model(f_model_prod, fp_csv, fp_scores=None)
 
@@ -84,7 +82,6 @@ else:
     sys.exit()
 
 ##################Re-deployment
-#if you found evidence for model drift, re-run the deployment.py script
 print("TRAIN MODEL")
 training.train_model(fp_csv, fp_model_train)
 _ = scoring.score_model(fp_model_train, fp_csv, fp_model_score)

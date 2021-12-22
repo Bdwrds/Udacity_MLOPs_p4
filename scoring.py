@@ -1,11 +1,7 @@
-from flask import Flask, session, jsonify, request
 import pandas as pd
-import numpy as np
 import pickle
 import os
 from sklearn import metrics
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 import json
 
 
@@ -28,9 +24,6 @@ fp_scores = os.path.join(fp_cwd, model_path, fp_score_file)
 
 #################Function for model scoring
 def score_model(fp_model, fp_csv, fp_scores=None):
-    #this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
-    #it should write the result to the latestscore.txt file
-
     X_cols = ['lastmonth_activity', 'lastyear_activity', 'number_of_employees']
     target = 'exited'
     df_test = pd.read_csv(fp_csv)

@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 import os
 import json
-from datetime import datetime
 
 #############Load config.json and get input and output paths
-with open('config.json','r') as f:
+with open('config.json', 'r') as f:
     config = json.load(f) 
 
 input_folder_path = config['input_folder_path']
@@ -14,6 +12,7 @@ ingest_record_file = config['ingest_record_file']
 csv_output = config['csv_output']
 
 fp_cwd = os.getcwd()
+
 # create directory if doesnt exist
 if os.path.isdir(output_folder_path) is not True:
     os.makedirs(os.path.join(fp_cwd, output_folder_path))
@@ -22,7 +21,6 @@ ingest_record = open(os.path.join(fp_cwd, output_folder_path,ingest_record_file)
 
 #############Function for data ingestion
 def merge_multiple_dataframe(input_folder_path):
-    #check for datasets, compile them together, and write to an output file
     ls_files = os.listdir(input_folder_path)
     df_comb = pd.DataFrame()
     for file in ls_files:
