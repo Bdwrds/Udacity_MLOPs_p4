@@ -28,7 +28,7 @@ fp_csv = os.path.join(fp_cwd, test_data_path, test_data_csv)
 fp_scores = os.path.join(fp_cwd, model_path, fp_score_file)
 
 #################Function for model scoring
-def score_model(fp_model, fp_csv, fp_scores):
+def score_model(fp_model, fp_csv, fp_scores=None):
     #this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
     #it should write the result to the latestscore.txt file
 
@@ -44,8 +44,11 @@ def score_model(fp_model, fp_csv, fp_scores):
     f1_score = metrics.f1_score(y_pred, y_test)
     print(f"F1 Score: {f1_score}")
 
-    with open(fp_scores, 'w+') as score_file:
-        score_file.write(str(f1_score))
+    if fp_scores is not None:
+        with open(fp_scores, 'w+') as score_file:
+            score_file.write(str(f1_score))
+
+    return f1_score
 
 if __name__ == "__main__":
     score_model(fp_model, fp_csv, fp_scores)

@@ -1,7 +1,5 @@
 import subprocess
-
 import pandas as pd
-import numpy as np
 import timeit
 import os
 import json
@@ -28,16 +26,17 @@ fp_prod = config['prod_deployment_path']
 f_model_prod = os.path.join(fp_cwd, fp_prod, f_model)
 f_data = os.path.join(fp_cwd, fp_test_data, f_test_data)
 
-df = pd.read_csv(f_data)
-X_cols = ['lastmonth_activity', 'lastyear_activity', 'number_of_employees']
-X = df.loc[:, X_cols]
+mdl = pickle.load(open(f_model_prod, 'rb'))
 
 ##################Function to get model predictions
-def model_predictions(model, df_data):
+def model_predictions(model, df_path):
     #read the deployed model and a test dataset, calculate predictions
-    mdl = pickle.load(open(model, 'rb'))
-    preds = mdl.predict(df_data)
-    return preds #return value should be a list containing all predictions
+    df = pd.read_csv(df_path)
+    X_cols = ['lastmonth_activity', 'lastyear_activity', 'number_of_employees']
+    X = df.loc[:, X_cols]
+    preds = model.predict(X)
+    return preds
+    #return value should be a list containing all predictions
 
 ##################Function to get summary statistics
 def dataframe_summary(fp):
@@ -46,9 +45,12 @@ def dataframe_summary(fp):
     all_stats = []
     for col in df.columns:
         if pd.api.types.is_numeric_dtype(df[col]):
-            print(col)
-            col_stats = [col, df[col].mean(), df[col].median(), df[col].min(), df[col].max()]
-            all_stats.append(col_stats)
+            all_stats.append(df[col].mean())
+            all_stats.append(df[col].median())
+            all_stats.append(df[col].min())
+            all_stats.append(df[col].max())
+            #col_stats = [col, df[col].mean(), df[col].median(), df[col].min(), df[col].max()]
+            #all_stats.append(col_stats)
     return all_stats #return value should be a list containing all summary statistics
 
 def dataframe_missing(fp):
@@ -76,6 +78,8 @@ def outdated_packages_list():
     with open('installed.txt', 'w') as fl:
         fl.write(ls_install.decode("utf-8"))
     df_pip = pd.read_csv('installed.txt', sep=r'\s+', skiprows=[1])
+    fl.close()
+    os.remove('installed.txt')
 
     ls_frozen = []
     with open('requirements.txt', 'r') as frozen:
@@ -87,7 +91,7 @@ def outdated_packages_list():
 
 
 if __name__ == '__main__':
-    model_predictions(f_model_prod, X)
+    model_predictions(mdl, f_data)
     dataframe_summary(f_dataset_csv)
     dataframe_missing(f_dataset_csv)
     execution_time()
