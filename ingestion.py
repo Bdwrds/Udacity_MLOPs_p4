@@ -21,7 +21,7 @@ if os.path.isdir(output_folder_path) is not True:
 ingest_record = open(os.path.join(fp_cwd, output_folder_path,ingest_record_file), 'w')
 
 #############Function for data ingestion
-def merge_multiple_dataframe():
+def merge_multiple_dataframe(input_folder_path):
     #check for datasets, compile them together, and write to an output file
     ls_files = os.listdir(input_folder_path)
     df_comb = pd.DataFrame()
@@ -30,7 +30,7 @@ def merge_multiple_dataframe():
             fp_df = os.path.join(fp_cwd, input_folder_path, file)
             df_sub = pd.read_csv(fp_df)
             df_comb = df_comb.append(df_sub)
-            ingest_record.write(fp_df + "\n")
+            ingest_record.write(file + "\n")
 
     # drop duplicates
     df_comb = df_comb.drop_duplicates()
@@ -43,4 +43,4 @@ def merge_multiple_dataframe():
     ingest_record.close()
 
 if __name__ == '__main__':
-    merge_multiple_dataframe()
+    merge_multiple_dataframe(input_folder_path)

@@ -38,7 +38,6 @@ def score_model(model_path, fp_csv, output_path):
     mdl = pickle.load(open(model_path, 'rb'))
     preds = model_predictions(mdl, fp_csv)
     cm = metrics.confusion_matrix(y, preds)
-    print(cm)
 
     # if latest version of sklearn
     #cm_plot = metrics.ConfusionMatrixDisplay.from_predictions(y_test, preds)
@@ -48,7 +47,7 @@ def score_model(model_path, fp_csv, output_path):
     plt.title('Confusion Matrix on Test Data')
     plt.ylabel('True Label')
     plt.xlabel('Predicated Label')
-    plt.savefig(os.path.join(output_model_path, 'confusionMatrix.png'))
+    plt.savefig(os.path.join(output_path, 'confusionMatrix2.png'))
 
 if __name__ == '__main__':
     score_model(f_model, f_csv, output_model_path)

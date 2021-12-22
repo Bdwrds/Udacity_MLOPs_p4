@@ -36,7 +36,7 @@ def store_model_into_pickle(fp_model_deploy_path, fp_model_train, fp_model_score
     #copy the latest pickle file, the latestscore.txt value, and the ingestfiles.txt file into the deployment directory
     f_ingest_deploy = os.path.join(fp_model_deploy_path, os.path.basename(fp_ingest_data))
     f_model_deploy = os.path.join(fp_model_deploy_path, os.path.basename(fp_model_train))
-    f_model_score = os.path.join(fp_model_deploy_path, os.path.basename(fp_model_deploy_path))
+    f_model_score = os.path.join(fp_model_deploy_path, os.path.basename(fp_model_score))
     copyfile(fp_ingest_data, f_ingest_deploy)
     print(f"Copied: {fp_ingest_data} to prod")
     copyfile(fp_model_train, f_model_deploy)

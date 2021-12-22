@@ -26,6 +26,10 @@ f_model_prod = os.path.join(fp_cwd, fp_prod, f_model)
 
 prediction_model = pickle.load(open(f_model_prod, 'rb'))
 
+@app.route("/", methods=['GET', 'OPTIONS'])
+def index():
+    response = request.args.get("check_working")
+    return str(response)
 
 #######################Prediction Endpoint
 @app.route("/prediction", methods=['POST', 'OPTIONS'])
@@ -33,7 +37,7 @@ def predict():
     csv_path = request.args.get('csv_path')
     preds = model_predictions(prediction_model, csv_path)
     #call the prediction function you created in Step 3
-    return str(preds), 200 #add return value for prediction outputs
+    return str(preds) #add return value for prediction outputs
 
 #######################Scoring Endpoint
 @app.route("/scoring", methods=['GET', 'OPTIONS'])
